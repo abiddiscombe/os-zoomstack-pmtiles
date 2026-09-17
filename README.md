@@ -2,6 +2,8 @@
 
 These are instructions for converting the Ordnance Survey (OS) [Open Zoomstack data](https://osdatahub.os.uk/data/downloads/open/OpenZoomstack) vector tiles into a single [PMTiles](https://docs.protomaps.com/pmtiles) archive, optimized for self-hosting with [MapLibre](https://maplibre.org/maplibre-gl-js/docs).
 
+> 🗺️ [View Demo (GitHub Pages)](https://abiddiscombe.github.io/os-zoomstack-pmtiles/example/)
+
 ## Introduction
 
 OS Open Zoomstack is a _"comprehensive basemap of Great Britain, showing coverage from national level right down to street detail"_ - it's ideal for web mapping and is free to use under the [Open Government Licence v3.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/).

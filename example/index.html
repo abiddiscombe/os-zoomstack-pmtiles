@@ -1,109 +1,131 @@
-<!DOCTYPE html>
-
-<head>
+<!doctype html>
+<html>
+  <head>
     <title>OS Zoomstack PMTiles Demo</title>
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
-</head>
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css"
+    />
+  </head>
 
-<style>
+  <style>
     body {
-        height: 100dvh;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        justify-content: stretch;
-        grid-template-rows: auto auto 1fr;
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      justify-content: stretch;
+      grid-template-rows: auto auto 1fr;
 
-        /** https://systemfontstack.com */
-        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
+      /** https://systemfontstack.com */
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        avenir next,
+        avenir,
+        segoe ui,
+        helvetica neue,
+        Adwaita Sans,
+        Cantarell,
+        Ubuntu,
+        roboto,
+        noto,
+        helvetica,
+        arial,
+        sans-serif;
 
-        &>header {
-            padding: 1em 1.6em;
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            background-color: white;
+      & > header {
+        padding: 1em 1.6em;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        background-color: white;
 
-            &>div>h1 {
-                margin: 0 0 0.4em 0;
-                padding: 0;
-                font-size: 1rem;
-            }
-
-            &>div>p {
-                margin: 0;
-                padding: 0;
-                font-size: 0.8rem;
-                font-style: italic;
-            }
-
-            &>a,
-            a:visited {
-                color: inherit;
-                font-size: small;
-            }
+        & > div > h1 {
+          margin: 0 0 0.4em 0;
+          padding: 0;
+          font-size: 1rem;
         }
 
-        &>nav {
-            gap: 0.4em;
-            padding: 0.6em 1.6em;
-            display: flex;
-            align-items: center;
-            background-color: whitesmoke;
-
-            &>span {
-                margin-right: 0.6em;
-                font-size: small;
-            }
-
-            &>button {
-                cursor: pointer;
-                border: 1px solid rgb(210, 210, 210);
-                padding: 0.2em 1em;
-                border-radius: 0.6em;
-                background-color: rgb(236, 236, 236);
-            }
-
-            &>button:hover {
-                background-color: rgb(210, 210, 210);
-            }
-
-            &>button.selected {
-                color: white;
-                background-color: dodgerblue;
-            }
+        & > div > p {
+          margin: 0 0 0.2em 0;
+          padding: 0;
+          font-size: 0.8rem;
+          font-style: italic;
         }
+
+        & > a,
+        a:visited {
+          color: inherit;
+          font-size: small;
+        }
+      }
+
+      & > nav {
+        gap: 0.4em;
+        padding: 0.6em 1.6em;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        background-color: whitesmoke;
+
+        & > span {
+          margin-right: 0.6em;
+          font-size: small;
+        }
+
+        & > button {
+          cursor: pointer;
+          border: 1px solid rgb(210, 210, 210);
+          padding: 0.2em 1em;
+          border-radius: 0.6em;
+          background-color: rgb(236, 236, 236);
+        }
+
+        & > button:hover {
+          background-color: rgb(210, 210, 210);
+        }
+
+        & > button.selected {
+          color: white;
+          background-color: dodgerblue;
+        }
+      }
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <header>
-        <div>
-            <h1>OS Zoomstack PMTiles Demo</h1>
-            <p>This demo only uses static files - there's no tile server or API.</p>
-        </div>
-        <a href="https://github.com/abiddiscombe/os-zoomstack-pmtiles">View Source</a>
+      <div>
+        <h1>OS Zoomstack PMTiles Demo</h1>
+        <p>This demo uses static files - there's no tile server or API.</p>
+      </div>
+      <a href="https://github.com/abiddiscombe/os-zoomstack-pmtiles"
+        >View Source</a
+      >
     </header>
     <nav>
-        <span>Style:</span>
-        <button id="light" class="selected" type="button">Light</button>
-        <button id="night" type="button">Night</button>
-        <button id="road" type="button">Road</button>
-        <button id="outdoor" type="button">Outdoor</button>
-        <button id="deuteranopia" type="button">Deuteranopia (A11Y)</button>
-        <button id="tritanopia" type="button">Tritanopia (A11Y)</button>
+      <span>Style:</span>
+      <button id="light" class="selected" type="button">Light</button>
+      <button id="night" type="button">Night</button>
+      <button id="road" type="button">Road</button>
+      <button id="outdoor" type="button">Outdoor</button>
+      <button id="deuteranopia" type="button">Deuteranopia (A11Y)</button>
+      <button id="tritanopia" type="button">Tritanopia (A11Y)</button>
     </nav>
     <main id="map-target"></main>
-</body>
+  </body>
 
-<script type="module">
-    import { Protocol } from 'https://cdn.jsdelivr.net/npm/pmtiles/+esm'
-    import * as maplibregl from 'https://cdn.jsdelivr.net/npm/maplibre-gl/+esm'
+  <script type="module">
+    import { Protocol } from "https://cdn.jsdelivr.net/npm/pmtiles/+esm";
+    import * as maplibregl from "https://cdn.jsdelivr.net/npm/maplibre-gl/+esm";
 
-    if (window.location.protocol === 'file:') {
-        document.querySelector('#map-target').innerHTML =
-            'This example must be served over HTTP.<br /> Run <code>python3 -m http.server</code> and then open <code>http://localhost:8000/example</code>.';
-        throw new Error()
+    if (window.location.protocol === "file:") {
+      document.querySelector("#map-target").innerHTML =
+        "This example must be served over HTTP.<br /> Run <code>python3 -m http.server</code> and then open <code>http://localhost:8000/example</code>.";
+      throw new Error();
     }
 
     const protocol = new Protocol();
@@ -112,75 +134,74 @@
     const baseUrl = window.location.href.replace("/example/", "");
 
     const loadLayerStyle = async (styleName) => {
-        const styleUrl = `${baseUrl}/extracted-layers/os-zoomstack-layers-${styleName}.json`
-        const res = await fetch(styleUrl);
-        const resJson = await res.json();
+      const styleUrl = `${baseUrl}/extracted-layers/os-zoomstack-layers-${styleName}.json`;
+      const res = await fetch(styleUrl);
+      const resJson = await res.json();
 
-        return resJson;
-    }
+      return resJson;
+    };
 
     const mapStyleBase = {
-        version: 8,
-        sources: {
-            "os-zoomstack": {
-                type: "vector",
-                url: `pmtiles://${baseUrl}/example/vectors-sample.pmtiles`,
-            }
+      version: 8,
+      sources: {
+        "os-zoomstack": {
+          type: "vector",
+          url: `pmtiles://${baseUrl}/example/vectors-sample.pmtiles`,
         },
-        sprite: `${baseUrl}/assets/sprites/sprites`,
-        glyphs: `${baseUrl}/assets/fonts/{fontstack}/{range}.pbf`
+      },
+      sprite: `${baseUrl}/assets/sprites/sprites`,
+      glyphs: `${baseUrl}/assets/fonts/{fontstack}/{range}.pbf`,
     };
 
     const mapStyle = {
-        ...mapStyleBase,
-        layers: await loadLayerStyle('light'),
+      ...mapStyleBase,
+      layers: await loadLayerStyle("light"),
     };
 
     const map = new maplibregl.Map({
-        container: 'map-target',
-        style: mapStyle,
-        zoom: 15,
-        center: [-0.076175, 51.508088],
-        maxBounds: [
-            [-0.134754, 51.488224],
-            [-0.016308, 51.529412],
-        ],
+      container: "map-target",
+      style: mapStyle,
+      zoom: 15,
+      center: [-0.076175, 51.508088],
+      maxBounds: [
+        [-0.134754, 51.488224],
+        [-0.016308, 51.529412],
+      ],
     });
 
-    let activeStyleName = 'light';
+    let activeStyleName = "light";
     let styleRequestId = 0;
 
     const setActiveStyle = (styleName) => {
-        document.querySelectorAll('nav button').forEach((button) => {
-            button.classList.toggle('selected', button.id === styleName);
-        });
+      document.querySelectorAll("nav button").forEach((button) => {
+        button.classList.toggle("selected", button.id === styleName);
+      });
     };
 
-    document.querySelectorAll('nav button').forEach((button) => {
-        button.addEventListener('click', async () => {
-            const styleName = button.id;
+    document.querySelectorAll("nav button").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const styleName = button.id;
 
-            if (styleName === activeStyleName) {
-                return;
-            }
+        if (styleName === activeStyleName) {
+          return;
+        }
 
-            const requestId = ++styleRequestId;
+        const requestId = ++styleRequestId;
 
-            try {
-                const layers = await loadLayerStyle(styleName);
+        try {
+          const layers = await loadLayerStyle(styleName);
 
-                if (requestId !== styleRequestId) {
-                    return;
-                }
+          if (requestId !== styleRequestId) {
+            return;
+          }
 
-                map.setStyle({ ...mapStyleBase, layers }, { diff: true });
-                activeStyleName = styleName;
-                setActiveStyle(styleName);
-            } catch (error) {
-                alert(`Unable to load the ${styleName} style`, error);
-            }
-        });
+          map.setStyle({ ...mapStyleBase, layers }, { diff: true });
+          activeStyleName = styleName;
+          setActiveStyle(styleName);
+        } catch (error) {
+          alert(`Unable to load the ${styleName} style`, error);
+        }
+      });
     });
-</script>
-
+  </script>
 </html>
